@@ -1,7 +1,10 @@
-﻿using Avalonia.Controls;
+﻿#pragma warning disable S1075
+
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Diagnostics;
 using YearInProgress.Logic;
 
 namespace YearInProgress.ViewModels
@@ -59,10 +62,37 @@ namespace YearInProgress.ViewModels
 #pragma warning restore S6561
         }
 
+        #region Commmands
         [RelayCommand]
         private void Exit()
         {
             this.WindowInstance.Close();
         }
+
+        [RelayCommand]
+        private static void BuyMeACoffee()
+        {
+            string url = "https://www.buymeacoffee.com/spreed";
+            try
+            {
+                if (OperatingSystem.IsWindows())
+                {
+                    Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+                }
+                else if (OperatingSystem.IsMacOS())
+                {
+                    Process.Start("open", url);
+                }
+                else if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
+                {
+                    Process.Start("xdg-open", url);
+                }
+            }
+            catch(Exception)
+            {
+                //noop
+            }
+        }
+        #endregion
     }
 }
