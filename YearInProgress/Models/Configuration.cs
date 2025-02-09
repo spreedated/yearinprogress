@@ -14,7 +14,7 @@ namespace YearInProgress.Models
         /// <summary>
         /// The refresh rate of the random retirement string in seconds
         /// </summary>
-        public int RefreshrateOfRandomRetirementString { get; set; } = 10;
+        public int RefreshrateOfRandomRetirementString { get; set; } = 600;
         public bool UseAdvancedProgress { get; set; } = true;
         public bool CompactView { get; set; }
     }
