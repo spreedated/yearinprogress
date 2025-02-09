@@ -1,0 +1,44 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:YearInProgress.ViewModels;assembly=YearInProgress"
+        mc:Ignorable="d"
+        x:Class="YearInProgress.Views.Options"
+        Title="Options"
+        WindowStartupLocation="CenterOwner"
+        x:DataType="vm:OptionsViewModel"
+        SizeToContent="WidthAndHeight">
+
+  <Design.DataContext>
+    <vm:OptionsViewModel/>
+  </Design.DataContext>
+
+  <Border x:Name="BorderWindow">
+    <StackPanel>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" Content="Retirement with year:"/>
+        <NumericUpDown Grid.Column="1" Grid.Row="0" Value="{Binding RetirementYear}" FormatString="##" Increment="1" Minimum="{Binding RetirementYearMinimum}" Maximum="90" Margin="0,0,0,8"/>
+
+        <Label Grid.Column="0" Grid.Row="1" Content="Birthday:"/>
+        <DatePicker Grid.Column="1" Grid.Row="1" SelectedDate="{Binding BirthdayDate, Mode=TwoWay}" Margin="0,0,0,8"/>
+
+        <Label Grid.Column="0" Grid.Row="2" Content="Motivationtext&#x0a;Refresh (Minutes):"/>
+        <NumericUpDown Grid.Column="1" Grid.Row="2" Value="{Binding RefreshrateOfRandomRetirementStringInMinutes}" FormatString="##" Increment="1" Minimum="1" Maximum="60" Margin="0,0,0,8"/>
+      </Grid>
+      
+      <Button Content="_Close" Command="{Binding ExitCommand}" VerticalAlignment="Bottom" Margin="0,16,0,0"/>
+    </StackPanel>
+  </Border>
+</Window>

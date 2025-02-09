@@ -1,0 +1,61 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:YearInProgress.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ve="using:YearInProgress.ViewElements"
+        mc:Ignorable="d"
+        x:Class="YearInProgress.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="YearInProgress"
+        SizeToContent="Height">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+  
+  <Window.ContextMenu>
+    <ContextMenu>
+      <MenuItem Header="Display _clock" Command="{Binding CheckBoxClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Tag="DisplayClock">
+          <MenuItem.Icon>
+              <CheckBox BorderThickness="0" IsHitTestVisible="True" IsChecked="{Binding DisplayClock, Mode=TwoWay}"/>
+          </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="Display _date" Command="{Binding CheckBoxClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Tag="DisplayDate">
+          <MenuItem.Icon>
+              <CheckBox BorderThickness="0" IsHitTestVisible="True" IsChecked="{Binding DisplayDate, Mode=TwoWay}"/>
+          </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="Display _retirement calculator" Command="{Binding CheckBoxClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Tag="DisplayRetirement">
+          <MenuItem.Icon>
+              <CheckBox BorderThickness="0" IsHitTestVisible="True" IsChecked="{Binding DisplayRetirement, Mode=TwoWay}"/>
+          </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="Use compact _view" Command="{Binding CheckBoxClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Tag="CompactView">
+        <MenuItem.Icon>
+          <CheckBox BorderThickness="0" IsHitTestVisible="True" IsChecked="{Binding CompactView, Mode=TwoWay}"/>
+        </MenuItem.Icon>
+      </MenuItem>
+    <Separator/>
+      <MenuItem Header="{Binding VersionInfo}" IsEnabled="False" />
+    <Separator/>
+      <MenuItem Header="_Get new Motivation!" Command="{Binding GetNewMotivationCommand}"/>
+    <MenuItem Header="{Binding SetBirthday, Mode=OneWay, StringFormat='Options ({0:dd.MM.yyyy})'}" Command="{Binding OpenOptionsCommand}"/>
+    <MenuItem Header="E_xit" Command="{Binding CloseApplicationCommand}"/>
+    </ContextMenu>
+  </Window.ContextMenu>
+
+  <Border x:Name="BorderWindow">
+    <StackPanel Margin="0,0,0,4">
+      <TextBlock Opacity="0.8" Text="{Binding Text, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,8"/>
+      
+      <Grid x:Name="GridYear"/>
+
+      <TextBlock Opacity="0.8" Text="{Binding CurrentDate, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" IsVisible="{Binding DisplayDate, Mode=OneWay}"/>
+      <TextBlock Opacity="0.8" Text="{Binding CurrentTimeString, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,8" IsVisible="{Binding DisplayClock, Mode=OneWay}"/>
+      <TextBlock Opacity="0.8" Text="{Binding RetirementString, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" IsVisible="{Binding DisplayRetirement, Mode=OneWay}"/>
+    </StackPanel>
+  </Border>
+
+</Window>
