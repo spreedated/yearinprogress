@@ -41,7 +41,7 @@
       <MenuItem Header="{Binding VersionInfo}" IsEnabled="False" />
     <Separator/>
       <MenuItem Header="_Get new Motivation!" Command="{Binding GetNewMotivationCommand}"/>
-    <MenuItem Header="{Binding SetBirthday, Mode=OneWay, StringFormat='Options ({0:dd.MM.yyyy})'}" Command="{Binding OpenOptionsCommand}"/>
+    <MenuItem Header="_Options" Command="{Binding OpenOptionsCommand}"/>
     <MenuItem Header="E_xit" Command="{Binding CloseApplicationCommand}"/>
     </ContextMenu>
   </Window.ContextMenu>

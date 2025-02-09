@@ -9,15 +9,14 @@ public partial class ProgressBoxAdvanced : UserControl
     public double Value
     {
         get { return base.GetValue(ValueProperty); }
-        set
-        {
-            base.SetValue(ValueProperty, value);
-        }
+        set { base.SetValue(ValueProperty, value); }
     }
 
+    #region Ctor
     public ProgressBoxAdvanced()
     {
         this.InitializeComponent();
         this.DataContext = this;
     }
+    #endregion
 }
