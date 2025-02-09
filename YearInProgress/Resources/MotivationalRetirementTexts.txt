@@ -23,7 +23,7 @@ No more meetings\njust peace and relaxation in \n{Placeholder}\n!
 \n{Placeholder}\n left until your\n‘Out of Office’ is permanent!
 Soon, work stress will be\na distant memory! \n{Placeholder}\n left!
 No more Monday blues\nonly\n{Placeholder}\n to go!
-The 9-to-5 grind\nends in just \n{Placeholder}\n!
+The 9-to-5 grind\nends in just \n{Placeholder}!
 Coffee will finally taste\nbetter when it's\nnot rushed! \n{Placeholder}\n left!
 No more commutes,\nno more alarms, just \n{Placeholder}\n left!
 Retirement:\nThe ultimate coffee break.\nJust \n{Placeholder}\n to go!
@@ -33,7 +33,7 @@ Pack your bags!\nRetirement is \n{Placeholder}\n away!
 \n{Placeholder}\n until your next great adventure begins!
 The world is waiting!\nOnly \n{Placeholder}\n to go!
 Retirement.\nUnlimited vacation days.\nJust \n{Placeholder}\n left!
-Soon, your only decision\nwill be ‘Beach or mountains?’—\n{Placeholder}\n left!
+Soon, your only decision\nwill be ‘Beach or mountains?’\n{Placeholder}\n left!
 Retirement mode:\nAlmost activated!\n{Placeholder}\n left!
 In {Placeholder}\nthe journey of\na lifetime begins!
 \n{Placeholder}\n left until you can\nexplore at your\nown pace!
@@ -44,28 +44,28 @@ Retirement: When ‘sleeping in’ becomes a lifestyle\n{Placeholder}\n to go!
 No more performance reviews! Just \n{Placeholder}\n left!
 Retirement is your next\nbig promotion\n{Placeholder}\n to go!
 Only \n{Placeholder}\n left until you retire\nfrom pretending\nto be busy!
-The countdown to\npajama mornings is on—\n{Placeholder}\n left!
+The countdown to\npajama mornings is on\n{Placeholder}\n left!
 \n{Placeholder}\nleft until you can start\nforgetting what day it is!
-Retirement: Where ‘vacation mode’ is permanent—\n{Placeholder}\n to go!
+Retirement: Where ‘vacation mode’ is permanent\n{Placeholder}\n to go!
 Just \n{Placeholder}\n left until you can\nreplace emails with naps!
 \n{Placeholder}\n until you make every\ndollar count for you!
 Financial freedom is just \n{Placeholder}\n away!
 Retirement\nWhen your money starts\nworking for you!\n{Placeholder}\n left!
 \n{Placeholder}\n left until you\nstart enjoying the fruits\nof your labor!
-Soon, your paycheck\nwill come from relaxation—\n{Placeholder}\n left!
+Soon, your paycheck\nwill come from relaxation\n{Placeholder}\n left!
 You've earned it! \n{Placeholder}\n left until your\nreward begins!
 No more chasing\npaychecks\n{Placeholder}\n left!
 \n{Placeholder}\n until your investment\nin yourself pays off!
 Retirement\nis your well-earned treasure\n{Placeholder}\n left!
-Soon, money stress\nwill be history! \n{Placeholder}\n left!
-You’re almost there!\n{Placeholder}\n left—stay strong!
+Soon, money stress\nwill be history!\n{Placeholder}\n left!
+You’re almost there!\n{Placeholder}\nleft—stay strong!
 Success is built one\nday at a time.\n{Placeholder}
 \n{Placeholder}\n left until you start\na new, exciting\nchapter!
 Stay focused\nyour goal is just \n{Placeholder}\n away!
 Your perseverance is\npaying off!\n{Placeholder}
 Retirement:\nThe grand prize for\na lifetime of effort\n{Placeholder}
 \n{Placeholder}\n left before you achieve\nthe ultimate work-life balance!
-Every day you show up,\nyou get closer—\n{Placeholder}\n to go!
+Every day you show up,\nyou get closer\n{Placeholder}\n to go!
 You’re stronger than\nyou think\n{Placeholder}\n until a\nwell-earned break!
 Hard work has\nbrought you here! Just \n{Placeholder}\n left!
 Freedom is calling!\nJust \n{Placeholder}\n left!
@@ -75,6 +75,6 @@ Retirement\nWhen every day is \nhe weekend\n{Placeholder}\n to go!
 \n{Placeholder}\n left until you can\nfinally say\n‘I’m done!’
 Your next chapter is almost here! \n{Placeholder}\n to go!
 \n{Placeholder}\n until you take full\ncontrol of your time!
-No more deadlines,\njust lifelines! \n{Placeholder}\n left!
-Your schedule,\nyour rules—\n{Placeholder}\n left!
+No more deadlines,\njust lifelines!\n{Placeholder}\n left!
+Your schedule,\nyour rules\n{Placeholder}\nleft!
 \n{Placeholder}\n until you can\nfinally do what\nYOU want!
