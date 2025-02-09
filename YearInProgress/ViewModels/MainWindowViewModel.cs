@@ -159,11 +159,6 @@ namespace YearInProgress.ViewModels
             }
         }
 
-        private void SwitchBetweenCompactAndClassicView()
-        {
-
-        }
-
         private void DisplayRandomRetirementString(TimeSpan time)
         {
             this.refreshRetirementStringInSecondsLeft--;
@@ -248,7 +243,7 @@ namespace YearInProgress.ViewModels
                     markedDays--;
                 }
 
-                if (Globals.Configuration.RuntimeConfiguration.CompactView && pb.Value <= 0 && this.progressBoxesAdvanced[currentRow,0].Value <= 0)
+                if (Globals.Configuration.RuntimeConfiguration.CompactView && pb.Value <= 0 && this.progressBoxesAdvanced[currentRow, 0].Value <= 0)
                 {
                     continue;
                 }

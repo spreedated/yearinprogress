@@ -88,7 +88,7 @@ namespace YearInProgress.ViewModels
                     Process.Start("xdg-open", url);
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 //noop
             }
