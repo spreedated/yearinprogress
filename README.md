@@ -3,7 +3,7 @@
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/spreed)
 
 ## Overview
-Motivation Tracker is a simple yet effective desktop application designed to keep you motivated throughout the year.
+Year In Progress is a simple yet effective desktop application designed to keep you motivated throughout the year.
 It displays the current year's progress in days and provides a real-time countdown to retirement.
 
 The app also features dynamic ***motivational messages*** to keep you going!
@@ -32,6 +32,6 @@ Contributions are welcome! Feel free to submit issues or pull requests.
 This project is licensed under the [MIT License](LICENSE.txt).
 
 ## Acknowledgments
-Thanks for checking out Motivation Tracker! Stay inspired and keep pushing forward!
+Thanks for checking out Year In Progress! Stay inspired and keep pushing forward!
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/spreed)
