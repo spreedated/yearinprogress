@@ -10,6 +10,7 @@
     <Version>1.0.1</Version>
     <AssemblyVersion>1.0.1</AssemblyVersion>
     <Authors>Dante Wackermann</Authors>
+    <ApplicationIcon>Assets/app_icon_white.ico</ApplicationIcon>
     <LangVersion>latest</LangVersion>
     <NoWarn>1701;1702;IDE0063</NoWarn>
   </PropertyGroup>
@@ -26,7 +27,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\MotivationalRetirementTexts.txt" />
   </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.2.3" />

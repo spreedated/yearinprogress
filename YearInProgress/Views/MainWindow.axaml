@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         x:Class="YearInProgress.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
         Title="YearInProgress"
-        SizeToContent="Height">
+        SizeToContent="Height"
+        Icon="/Assets/app_icon_white.ico">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
