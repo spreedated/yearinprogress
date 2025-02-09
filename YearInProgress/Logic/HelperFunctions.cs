@@ -7,21 +7,23 @@ namespace YearInProgress.Logic
     internal static class HelperFunctions
     {
         private readonly static Assembly assembly = typeof(HelperFunctions).Assembly;
+        private static string[] motivationalLines = null;
 
         public static string LoadRandomMotivationalRetirementText()
         {
-            string[] strings = null;
-
-            using (Stream s = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.Resources.MotivationalRetirementTexts.txt"))
+            if (motivationalLines == null || motivationalLines.Length <= 0)
             {
-                using (StreamReader r = new(s))
+                using (Stream s = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.Resources.MotivationalRetirementTexts.txt"))
                 {
-                    strings = r.ReadToEnd().Split('\n');
+                    using (StreamReader r = new(s))
+                    {
+                        motivationalLines = r.ReadToEnd().Split('\n');
+                    }
                 }
             }
 
             Random rnd = new(BitConverter.ToInt32(Guid.NewGuid().ToByteArray()));
-            return strings[rnd.Next(strings.Length)].Replace("\\n", "\n");
+            return motivationalLines[rnd.Next(motivationalLines.Length)].Replace("\\n", "\n");
         }
     }
 }
