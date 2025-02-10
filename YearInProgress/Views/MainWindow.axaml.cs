@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using System.Linq;
 using YearInProgress.Logic;
 using YearInProgress.ViewLogic;
 using YearInProgress.ViewModels;
@@ -23,8 +24,8 @@ namespace YearInProgress.Views
             };
 
             if ((Globals.Configuration.RuntimeConfiguration.LocationX == default && Globals.Configuration.RuntimeConfiguration.LocationY == default) ||
-                Globals.Configuration.RuntimeConfiguration.LocationX > base.Screens.Primary.Bounds.Size.Width ||
-                Globals.Configuration.RuntimeConfiguration.LocationY > base.Screens.Primary.Bounds.Size.Height)
+                Globals.Configuration.RuntimeConfiguration.LocationX > base.Screens.All.Sum(x => x.Bounds.Size.Width) ||
+                Globals.Configuration.RuntimeConfiguration.LocationY > base.Screens.All.Sum(x => x.Bounds.Size.Height))
             {
                 this.Position = new((int)((base.Screens.Primary.Bounds.Size.Width / 2) - (this.Width / 2)),
                     (int)((base.Screens.Primary.Bounds.Size.Height / 2) - (this.Height / 2)));
