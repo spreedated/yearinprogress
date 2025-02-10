@@ -9,7 +9,8 @@
         x:DataType="vm:MainWindowViewModel"
         Title="YearInProgress"
         SizeToContent="Height"
-        Icon="/Assets/app_icon_white.ico">
+        Icon="/Assets/app_icon_white.ico"
+        Loaded="Window_Loaded">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
