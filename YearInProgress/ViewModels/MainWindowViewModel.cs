@@ -72,6 +72,13 @@ namespace YearInProgress.ViewModels
 
         [ObservableProperty]
         private DateTime setBirthday;
+
+        [ObservableProperty]
+        private bool topMost = Globals.Configuration.RuntimeConfiguration.TopMost;
+        partial void OnTopMostChanged(bool value)
+        {
+            this.SaveSettingsToConfig();
+        }
         #endregion
 
         #region Ctor
@@ -179,6 +186,7 @@ namespace YearInProgress.ViewModels
             Globals.Configuration.RuntimeConfiguration.DisplayRetirement = this.DisplayRetirement;
             Globals.Configuration.RuntimeConfiguration.Birthday = this.SetBirthday;
             Globals.Configuration.RuntimeConfiguration.CompactView = this.CompactView;
+            Globals.Configuration.RuntimeConfiguration.TopMost = this.TopMost;
 
             Globals.Configuration.Save();
         }

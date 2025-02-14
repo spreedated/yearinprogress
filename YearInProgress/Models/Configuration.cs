@@ -17,5 +17,6 @@ namespace YearInProgress.Models
         public int RefreshrateOfRandomRetirementString { get; set; } = 600;
         public int RetirementWithYear { get; set; } = 67;
         public bool UseAdvancedProgress { get; set; } = true;
+        public bool TopMost { get; set; } = true;
     }
 }
