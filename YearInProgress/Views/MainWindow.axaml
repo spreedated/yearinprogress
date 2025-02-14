@@ -10,7 +10,8 @@
         Title="YearInProgress"
         SizeToContent="Height"
         Icon="/Assets/app_icon_white.ico"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        Topmost="{Binding TopMost}">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -36,6 +37,11 @@
       <MenuItem Header="Use compact _view" Command="{Binding CheckBoxClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Tag="CompactView">
         <MenuItem.Icon>
           <CheckBox BorderThickness="0" IsHitTestVisible="True" IsChecked="{Binding CompactView, Mode=TwoWay}"/>
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="Top Most" Command="{Binding CheckBoxClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Tag="TopMost">
+        <MenuItem.Icon>
+          <CheckBox BorderThickness="0" IsHitTestVisible="True" IsChecked="{Binding TopMost, Mode=TwoWay}"/>
         </MenuItem.Icon>
       </MenuItem>
     <Separator/>
