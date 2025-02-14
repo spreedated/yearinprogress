@@ -10,7 +10,7 @@ public partial class Options : Window
     {
         this.InitializeComponent();
         this.DataContext = new OptionsViewModel();
-        _= new WindowDragHandler(this);
+        _ = new WindowDragHandler(this);
 
         ((OptionsViewModel)this.DataContext).WindowInstance = this;
     }
