@@ -126,6 +126,13 @@ namespace YearInProgress.ViewModels
         }
 
         [RelayCommand]
+        private void OpenChangelog()
+        {
+            Changelog c = new();
+            c.ShowDialog(this.WindowInstance);
+        }
+
+        [RelayCommand]
         private void GetNewMotivation()
         {
             this.refreshRetirementStringInSecondsLeft = 0;

@@ -48,6 +48,7 @@
       <MenuItem Header="{Binding VersionInfo}" IsEnabled="False" />
     <Separator/>
       <MenuItem Header="_Get new Motivation!" Command="{Binding GetNewMotivationCommand}"/>
+    <MenuItem Header="Chan_gelog" Command="{Binding OpenChangelogCommand}"/>
     <MenuItem Header="_Options" Command="{Binding OpenOptionsCommand}"/>
     <MenuItem Header="E_xit" Command="{Binding CloseApplicationCommand}"/>
     </ContextMenu>

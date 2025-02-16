@@ -8,6 +8,7 @@ namespace YearInProgress.Logic
     {
         private readonly static Assembly assembly = typeof(HelperFunctions).Assembly;
         private static string[] motivationalLines = null;
+        private static string changelogText = null;
 
         public static string LoadRandomMotivationalRetirementText()
         {
@@ -24,6 +25,22 @@ namespace YearInProgress.Logic
 
             Random rnd = new(BitConverter.ToInt32(Guid.NewGuid().ToByteArray()));
             return motivationalLines[rnd.Next(motivationalLines.Length)].Replace("\\n", "\n");
+        }
+
+        public static string ReadEmbeddedChangelog()
+        {
+            if (string.IsNullOrEmpty(changelogText))
+            {
+                using (Stream s = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.Resources.Changelog.txt"))
+                {
+                    using (StreamReader r = new(s))
+                    {
+                        changelogText = r.ReadToEnd();
+                    }
+                }
+            }
+
+            return changelogText;
         }
     }
 }
