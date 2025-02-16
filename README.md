@@ -15,6 +15,7 @@ The app also features dynamic ***motivational messages*** to keep you going!
 - **Dynamic Motivational Messages** – Generates engaging and uplifting messages to keep you motivated.
 - **Simple and Intuitive UI** – Easy to use with a clean and minimalistic design.
 - **Lightweight & Fast** – Runs smoothly without consuming many resources.
+- Autostart option for Windows OS.
 - Everything optional, adjust to your liking.
 
 ## Screenshots

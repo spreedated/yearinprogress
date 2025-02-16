@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:YearInProgress.ViewModels"
+        xmlns:vl="using:YearInProgress.ViewLogic"
+        mc:Ignorable="d"
+        x:Class="YearInProgress.Views.Changelog"
+        Title="Changelog"
+        x:DataType="vm:ChangelogViewModel"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        MinWidth="260"
+        MinHeight="280">
+  
+  <Design.DataContext>
+    <vm:ChangelogViewModel/>
+  </Design.DataContext>
+
+  <Border x:Name="BorderWindow">
+    <StackPanel>
+
+      <Grid>
+        <TextBox Text="{Binding Changelog}" TextWrapping="Wrap" IsReadOnly="True" MinWidth="240" MinHeight="180" MaxHeight="180"/>
+      </Grid>
+
+      <Button Padding="0" Margin="0,16,0,0" HorizontalAlignment="Center" Command="{Binding BuyMeACoffeeCommand}">
+        <Button.Content>
+          <Image Source="/Assets/bmac.png" Width="120"/>
+        </Button.Content>
+      </Button>
+
+      <Button Content="_Close" Command="{Binding ExitCommand}" VerticalAlignment="Bottom" Margin="0,4,0,0"/>
+    </StackPanel>
+    </Border>
+</Window>

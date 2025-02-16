@@ -1,0 +1,15 @@
+﻿v1.0.4
+----------------
+- Added Changelog
+- Added Startup option for windows
+- Added Updater function
+- Updated Avalonia Packages
+
+v1.0.3
+----------------
+- Added TopMost option
+- Updated System.Text.Json
+
+v1.0.0
+----------------
+- Initial release
