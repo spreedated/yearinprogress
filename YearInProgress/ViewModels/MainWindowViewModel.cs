@@ -186,7 +186,7 @@ namespace YearInProgress.ViewModels
         }
 
         [RelayCommand]
-        private void OpenGithubPage()
+        private static void OpenGithubPage()
         {
             HelperFunctions.OpenWebsite(Constants.GITHUB_LATEST_RELEASE_URL);
         }

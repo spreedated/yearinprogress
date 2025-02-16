@@ -5,7 +5,7 @@
         xmlns:vm="using:YearInProgress.ViewModels"
         xmlns:vl="using:YearInProgress.ViewLogic"
         mc:Ignorable="d"
-        x:Class="YearInProgress.Changelog"
+        x:Class="YearInProgress.Views.Changelog"
         Title="Changelog"
         x:DataType="vm:ChangelogViewModel"
         SizeToContent="WidthAndHeight"

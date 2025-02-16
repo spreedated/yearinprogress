@@ -2,15 +2,16 @@ using Avalonia.Controls;
 using YearInProgress.ViewLogic;
 using YearInProgress.ViewModels;
 
-namespace YearInProgress;
-
-public partial class Changelog : Window
+namespace YearInProgress.Views
 {
-    public Changelog()
+    public partial class Changelog : Window
     {
-        this.InitializeComponent();
-        this.DataContext = new ChangelogViewModel();
-        _ = new WindowDragHandler(this);
-        ((ChangelogViewModel)this.DataContext).WindowInstance = this;
+        public Changelog()
+        {
+            this.InitializeComponent();
+            this.DataContext = new ChangelogViewModel();
+            _ = new WindowDragHandler(this);
+            ((ChangelogViewModel)this.DataContext).WindowInstance = this;
+        }
     }
 }
