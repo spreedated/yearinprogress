@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using YearInProgress.Logic;
-using YearInProgress.ViewLogic;
 
 namespace YearInProgress.ViewModels
 {
@@ -38,7 +37,7 @@ namespace YearInProgress.ViewModels
         [RelayCommand]
         private static void BuyMeACoffee()
         {
-            StaticCommands.BuyMeACoffee();
+            HelperFunctions.OpenWebsite(Constants.BUY_ME_A_COFFEE_URL);
         }
         #endregion
     }

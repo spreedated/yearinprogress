@@ -6,6 +6,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using YearInProgress.Logic;
 using YearInProgress.ViewElements;
 using YearInProgress.Views;
@@ -98,6 +99,12 @@ namespace YearInProgress.ViewModels
 
         [ObservableProperty]
         private bool enabledAutostartMenuItem = OperatingSystem.IsWindows();
+
+        [ObservableProperty]
+        private bool isNewVersionMenuItemVisible = false;
+
+        [ObservableProperty]
+        private Version latestOnlineVersion = default;
         #endregion
 
         #region Ctor
@@ -113,6 +120,22 @@ namespace YearInProgress.ViewModels
             {
                 this.IsAutostart = AutoStartManager.IsAutostartEnabled();
             }
+
+            Task.Run(async () =>
+            {
+                Version v = await UpdateManager.GetLatestVersionAsync();
+
+                if (HelperFunctions.assembly.GetName().Version < v)
+                {
+                    Dispatcher.UIThread.Invoke(() =>
+                    {
+                        this.IsNewVersionMenuItemVisible = true;
+                        this.LatestOnlineVersion = v;
+                    });
+                }
+
+                Dispatcher.UIThread.Invoke(() => this.IsNewVersionMenuItemVisible = false);
+            });
 
             TimeSpan timeUntilNextSecond = TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(DateTime.Now.Millisecond);
             this.reinitTimer.Interval = timeUntilNextSecond;
@@ -160,6 +183,12 @@ namespace YearInProgress.ViewModels
         private void GetNewMotivation()
         {
             this.refreshRetirementStringInSecondsLeft = 0;
+        }
+
+        [RelayCommand]
+        private void OpenGithubPage()
+        {
+            HelperFunctions.OpenWebsite(Constants.GITHUB_LATEST_RELEASE_URL);
         }
         #endregion
 

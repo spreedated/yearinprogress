@@ -51,11 +51,12 @@
       </MenuItem>
     <Separator/>
       <MenuItem Header="{Binding VersionInfo}" IsEnabled="False" />
+      <MenuItem Header="{Binding LatestOnlineVersion, StringFormat='New version! {0}'}" Command="{Binding OpenGithubPageCommand}" IsVisible="{Binding IsNewVersionMenuItemVisible}"/>
     <Separator/>
       <MenuItem Header="_Get new Motivation!" Command="{Binding GetNewMotivationCommand}"/>
-    <MenuItem Header="Chan_gelog" Command="{Binding OpenChangelogCommand}"/>
-    <MenuItem Header="_Options" Command="{Binding OpenOptionsCommand}"/>
-    <MenuItem Header="E_xit" Command="{Binding CloseApplicationCommand}"/>
+      <MenuItem Header="Chan_gelog" Command="{Binding OpenChangelogCommand}"/>
+      <MenuItem Header="_Options" Command="{Binding OpenOptionsCommand}"/>
+      <MenuItem Header="E_xit" Command="{Binding CloseApplicationCommand}"/>
     </ContextMenu>
   </Window.ContextMenu>
 

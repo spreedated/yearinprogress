@@ -1,11 +1,8 @@
-﻿#pragma warning disable S1075
-
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using YearInProgress.Logic;
-using YearInProgress.ViewLogic;
 
 namespace YearInProgress.ViewModels
 {
@@ -72,7 +69,7 @@ namespace YearInProgress.ViewModels
         [RelayCommand]
         private static void BuyMeACoffee()
         {
-            StaticCommands.BuyMeACoffee();
+            HelperFunctions.OpenWebsite(Constants.BUY_ME_A_COFFEE_URL);
         }
         #endregion
     }

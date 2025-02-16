@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -7,7 +8,6 @@ namespace YearInProgress.Logic
     internal static class HelperFunctions
     {
         internal readonly static Assembly assembly = typeof(HelperFunctions).Assembly;
-        private static readonly string autostartFilepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "YearInProgress.lnk");
         private static string[] motivationalLines = null;
         private static string changelogText = null;
 
@@ -42,6 +42,29 @@ namespace YearInProgress.Logic
             }
 
             return changelogText;
+        }
+
+        public static void OpenWebsite(string url)
+        {
+            try
+            {
+                if (OperatingSystem.IsWindows())
+                {
+                    Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+                }
+                else if (OperatingSystem.IsMacOS())
+                {
+                    Process.Start("open", url);
+                }
+                else if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
+                {
+                    Process.Start("xdg-open", url);
+                }
+            }
+            catch (Exception)
+            {
+                //noop
+            }
         }
     }
 }
