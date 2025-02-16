@@ -4,7 +4,6 @@ using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
-using System.Diagnostics;
 using YearInProgress.Logic;
 using YearInProgress.ViewLogic;
 
