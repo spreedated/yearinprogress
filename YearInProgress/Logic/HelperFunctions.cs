@@ -6,7 +6,8 @@ namespace YearInProgress.Logic
 {
     internal static class HelperFunctions
     {
-        private readonly static Assembly assembly = typeof(HelperFunctions).Assembly;
+        internal readonly static Assembly assembly = typeof(HelperFunctions).Assembly;
+        private static readonly string autostartFilepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "YearInProgress.lnk");
         private static string[] motivationalLines = null;
         private static string changelogText = null;
 

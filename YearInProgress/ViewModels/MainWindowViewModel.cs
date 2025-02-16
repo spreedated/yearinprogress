@@ -79,6 +79,25 @@ namespace YearInProgress.ViewModels
         {
             this.SaveSettingsToConfig();
         }
+
+        [ObservableProperty]
+        private bool isAutostart = false;
+        partial void OnIsAutostartChanged(bool value)
+        {
+            if (this.isFirstRun)
+            {
+                return;
+            }
+
+            if (OperatingSystem.IsWindows())
+            {
+                AutoStartManager.ToggleAutoStart();
+                this.IsAutostart = AutoStartManager.IsAutostartEnabled();
+            }
+        }
+
+        [ObservableProperty]
+        private bool enabledAutostartMenuItem = OperatingSystem.IsWindows();
         #endregion
 
         #region Ctor
@@ -89,6 +108,11 @@ namespace YearInProgress.ViewModels
             this.versionInfo = $"Version: {typeof(MainWindowViewModel).Assembly.GetName().Version}";
             this.lastRunDay = DateTime.Now.Day;
             this.setBirthday = Globals.Configuration.RuntimeConfiguration.Birthday;
+
+            if (OperatingSystem.IsWindows())
+            {
+                this.IsAutostart = AutoStartManager.IsAutostartEnabled();
+            }
 
             TimeSpan timeUntilNextSecond = TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(DateTime.Now.Millisecond);
             this.reinitTimer.Interval = timeUntilNextSecond;
