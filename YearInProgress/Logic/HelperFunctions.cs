@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Avalonia;
+using Avalonia.Styling;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -65,6 +67,17 @@ namespace YearInProgress.Logic
             {
                 //noop
             }
+        }
+
+        public static void SetTheme()
+        {
+            if (Globals.Configuration.RuntimeConfiguration.DarkTheme)
+            {
+                Application.Current.RequestedThemeVariant = ThemeVariant.Dark;
+                return;
+            }
+
+            Application.Current.RequestedThemeVariant = ThemeVariant.Light;
         }
     }
 }

@@ -26,6 +26,7 @@
           <RowDefinition/>
           <RowDefinition/>
           <RowDefinition/>
+          <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Label Grid.Column="0" Grid.Row="0" Content="Retirement with year:"/>
@@ -36,6 +37,9 @@
 
         <Label Grid.Column="0" Grid.Row="2" Content="Motivationtext&#x0a;Refresh (Minutes):"/>
         <NumericUpDown Grid.Column="1" Grid.Row="2" Value="{Binding RefreshrateOfRandomRetirementStringInMinutes}" FormatString="##" Increment="1" Minimum="1" Maximum="60" Margin="0,0,0,8"/>
+
+        <Label Grid.Column="0" Grid.Row="3" Content="Dark Mode:"/>
+        <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding IsDarkModeActive, Mode=TwoWay}"/>
       </Grid>
 
       <Button Padding="0" Margin="0,16,0,0" HorizontalAlignment="Center" Command="{Binding BuyMeACoffeeCommand}">
