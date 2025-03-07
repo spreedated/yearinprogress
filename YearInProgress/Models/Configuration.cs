@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace YearInProgress.Models
 {
@@ -18,5 +19,8 @@ namespace YearInProgress.Models
         public int RetirementWithYear { get; set; } = 67;
         public bool TopMost { get; set; } = true;
         public bool UseAdvancedProgress { get; set; } = true;
+
+        [JsonPropertyName("theme")]
+        public bool DarkTheme { get; set; } = true;
     }
 }

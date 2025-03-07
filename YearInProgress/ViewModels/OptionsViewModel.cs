@@ -39,6 +39,15 @@ namespace YearInProgress.ViewModels
             Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString = value * 60;
             Globals.Configuration.Save();
         }
+
+        [ObservableProperty]
+        private bool isDarkModeActive = Globals.Configuration.RuntimeConfiguration.DarkTheme;
+        partial void OnIsDarkModeActiveChanged(bool value)
+        {
+            Globals.Configuration.RuntimeConfiguration.DarkTheme = value;
+            Globals.Configuration.Save();
+            HelperFunctions.SetTheme();
+        }
         #endregion
 
         #region Ctor

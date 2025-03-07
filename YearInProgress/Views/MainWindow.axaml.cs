@@ -12,6 +12,8 @@ namespace YearInProgress.Views
 
         public MainWindow()
         {
+            HelperFunctions.SetTheme();
+
             this.InitializeComponent();
             this.DataContext = new MainWindowViewModel();
             this.dragHandler = new(this);
