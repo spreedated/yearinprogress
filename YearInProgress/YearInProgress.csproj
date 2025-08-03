@@ -13,6 +13,7 @@
     <ApplicationIcon>Assets/app_icon_white.ico</ApplicationIcon>
     <LangVersion>latest</LangVersion>
     <NoWarn>1701;1702;IDE0063</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

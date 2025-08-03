@@ -1,6 +1,7 @@
 ﻿v1.0.6
 ----------------
 - Updated to Avalonia 11.3.2
+- Removed from ALT+Tab displaying the window
 
 v1.0.5
 ----------------

@@ -1,5 +1,8 @@
 using Avalonia.Controls;
+using Avalonia.Platform;
+using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using YearInProgress.Logic;
 using YearInProgress.ViewLogic;
 using YearInProgress.ViewModels;
@@ -49,5 +52,31 @@ namespace YearInProgress.Views
                 this.Position = new(Globals.Configuration.RuntimeConfiguration.LocationX, Globals.Configuration.RuntimeConfiguration.LocationY);
             }
         }
+
+        private void Window_Opened(object sender, EventArgs e)
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                var platformImpl = this.TryGetPlatformHandle();
+                var handle = platformImpl?.Handle ?? IntPtr.Zero;
+                if (handle != IntPtr.Zero)
+                {
+                    const int GWL_EXSTYLE = -20;
+                    const int WS_EX_TOOLWINDOW = 0x00000080;
+                    const int WS_EX_APPWINDOW = 0x00040000;
+
+                    int exStyle = (int)GetWindowLong(handle, GWL_EXSTYLE);
+                    exStyle |= WS_EX_TOOLWINDOW;
+                    exStyle &= ~WS_EX_APPWINDOW;
+                    _ = SetWindowLong(handle, GWL_EXSTYLE, exStyle);
+                }
+            }
+        }
+
+        [LibraryImport("user32.dll", EntryPoint = "GetWindowLongPtrW")]
+        private static partial IntPtr GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [LibraryImport("user32.dll", EntryPoint = "SetWindowLongPtrW")]
+        private static partial IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
     }
 }
