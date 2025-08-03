@@ -1,4 +1,8 @@
-﻿v1.0.5
+﻿v1.0.6
+----------------
+- Updated to Avalonia 11.3.2
+
+v1.0.5
 ----------------
 - Added Dark-Mode option, default dark
 - Updated to Avalonia 11.2.5
