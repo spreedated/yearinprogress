@@ -182,7 +182,7 @@ namespace YearInProgress.ViewModels
         [RelayCommand]
         private void GetNewMotivation()
         {
-            this.refreshRetirementStringInSecondsLeft = 0;
+            this.ShowRandomRetirementsString(true);
         }
 
         [RelayCommand]
@@ -210,15 +210,7 @@ namespace YearInProgress.ViewModels
                 this.lastRunDay = DateTime.Now.Day;
             }
 
-            if (this.DisplayRetirement && Globals.Configuration.RuntimeConfiguration.Birthday != default)
-            {
-                TimeSpan substracted = Globals.Configuration.RuntimeConfiguration.Birthday.AddYears(Globals.Configuration.RuntimeConfiguration.RetirementWithYear) - Globals.Configuration.RuntimeConfiguration.Birthday;
-#pragma warning disable S6561
-                TimeSpan calculated = substracted - (DateTime.Now - Globals.Configuration.RuntimeConfiguration.Birthday);
-#pragma warning restore S6561
-
-                this.DisplayRandomRetirementString(calculated);
-            }
+            this.ShowRandomRetirementsString();
 
             if (this.isFirstRun)
             {
@@ -226,16 +218,29 @@ namespace YearInProgress.ViewModels
             }
         }
 
-        private void DisplayRandomRetirementString(TimeSpan time)
+        private void ShowRandomRetirementsString(bool force = false)
         {
-            this.refreshRetirementStringInSecondsLeft--;
-
-            this.RetirementString = this.currentRetirementString.Replace("{Placeholder}", $"{(int)time.TotalDays:N0} days,\n{time.Hours} hrs, {time.Minutes} mins, {time.Seconds} sec").Trim('\n');
-
-            if (this.refreshRetirementStringInSecondsLeft <= 0)
+            if (this.DisplayRetirement && Globals.Configuration.RuntimeConfiguration.Birthday != default)
             {
-                this.refreshRetirementStringInSecondsLeft = Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString;
-                this.currentRetirementString = HelperFunctions.LoadRandomMotivationalRetirementText();
+                TimeSpan substracted = Globals.Configuration.RuntimeConfiguration.Birthday.AddYears(Globals.Configuration.RuntimeConfiguration.RetirementWithYear) - Globals.Configuration.RuntimeConfiguration.Birthday;
+#pragma warning disable S6561
+                TimeSpan time = substracted - (DateTime.Now - Globals.Configuration.RuntimeConfiguration.Birthday);
+#pragma warning restore S6561
+
+                this.refreshRetirementStringInSecondsLeft--;
+
+                this.RetirementString = this.currentRetirementString.Replace("{Placeholder}", $"{(int)time.TotalDays:N0} days,\n{time.Hours} hrs, {time.Minutes} mins, {time.Seconds} sec").Trim('\n');
+
+                if (force)
+                {
+                    this.refreshRetirementStringInSecondsLeft = 0;
+                }
+
+                if (this.refreshRetirementStringInSecondsLeft <= 0)
+                {
+                    this.refreshRetirementStringInSecondsLeft = Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString;
+                    this.currentRetirementString = HelperFunctions.LoadRandomMotivationalRetirementText();
+                }
             }
         }
 
