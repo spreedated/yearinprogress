@@ -18,7 +18,16 @@ namespace YearInProgress
 
         public override void OnFrameworkInitializationCompleted()
         {
-            Globals.Configuration = new(new(Path.Combine(AppContext.BaseDirectory, "config.json"))
+            if (OperatingSystem.IsWindows())
+            {
+                Globals.AppLocalBaseUserPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "neXn-Systems", "YearInProgress");
+            }
+            else
+            {
+                Globals.AppLocalBaseUserPath = AppContext.BaseDirectory;
+            }
+
+            Globals.Configuration = new(new(Path.Combine(Globals.AppLocalBaseUserPath, "config.json"))
             {
                 Autoload = false
             });

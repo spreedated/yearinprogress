@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using YearInProgress.ViewLogic;
+using neXn.Ui.Avalonia;
 using YearInProgress.ViewModels;
 
 namespace YearInProgress.Views
@@ -10,7 +10,10 @@ namespace YearInProgress.Views
         {
             this.InitializeComponent();
             this.DataContext = new ChangelogViewModel();
-            _ = new WindowDragHandler(this);
+            _ = new WindowDragHandler(this)
+            {
+                IsEnabled = true
+            };
             ((ChangelogViewModel)this.DataContext).WindowInstance = this;
         }
     }

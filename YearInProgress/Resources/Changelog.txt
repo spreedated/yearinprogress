@@ -1,4 +1,13 @@
-﻿v1.0.6
+﻿v1.0.7
+----------------
+- Updated to Avalonia 11.3.6
+- Updated other dependencies
+- Updated ConfigurationHandler
+- Using neXn Avalonia package
+- Changed path of userconfig
+- Minor performance improvements
+
+v1.0.6
 ----------------
 - Updated to Avalonia 11.3.2
 - Removed from ALT+Tab displaying the window

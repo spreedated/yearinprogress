@@ -1,10 +1,9 @@
 using Avalonia.Controls;
-using Avalonia.Platform;
+using neXn.Ui.Avalonia;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using YearInProgress.Logic;
-using YearInProgress.ViewLogic;
 using YearInProgress.ViewModels;
 
 namespace YearInProgress.Views
@@ -19,7 +18,10 @@ namespace YearInProgress.Views
 
             this.InitializeComponent();
             this.DataContext = new MainWindowViewModel();
-            this.dragHandler = new(this);
+            this.dragHandler = new(this)
+            {
+                IsEnabled = true
+            };
 
             this.dragHandler.PointerReleased += (s, e) =>
             {

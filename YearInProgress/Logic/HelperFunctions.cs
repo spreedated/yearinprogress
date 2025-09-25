@@ -12,6 +12,7 @@ namespace YearInProgress.Logic
         internal readonly static Assembly assembly = typeof(HelperFunctions).Assembly;
         private static string[] motivationalLines = null;
         private static string changelogText = null;
+        private static readonly Random rnd = new(BitConverter.ToInt32(Guid.NewGuid().ToByteArray()));
 
         public static string LoadRandomMotivationalRetirementText()
         {
@@ -26,7 +27,6 @@ namespace YearInProgress.Logic
                 }
             }
 
-            Random rnd = new(BitConverter.ToInt32(Guid.NewGuid().ToByteArray()));
             return motivationalLines[rnd.Next(motivationalLines.Length)].Replace("\\n", "\n");
         }
 

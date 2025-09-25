@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using YearInProgress.ViewLogic;
+using neXn.Ui.Avalonia;
 using YearInProgress.ViewModels;
 
 namespace YearInProgress.Views;
@@ -10,7 +10,10 @@ public partial class Options : Window
     {
         this.InitializeComponent();
         this.DataContext = new OptionsViewModel();
-        _ = new WindowDragHandler(this);
+        _ = new WindowDragHandler(this)
+        {
+            IsEnabled = true
+        };
 
         ((OptionsViewModel)this.DataContext).WindowInstance = this;
     }
