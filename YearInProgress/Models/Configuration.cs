@@ -1,4 +1,5 @@
-﻿using System;
+﻿using neXn.Ui.Models;
+using System;
 using System.Text.Json.Serialization;
 
 namespace YearInProgress.Models
@@ -10,8 +11,7 @@ namespace YearInProgress.Models
         public bool DisplayClock { get; set; } = true;
         public bool DisplayDate { get; set; } = true;
         public bool DisplayRetirement { get; set; } = true;
-        public int LocationX { get; set; }
-        public int LocationY { get; set; }
+        public Location WindowLocation { get; set; }
         /// <summary>
         /// The refresh rate of the random retirement string in seconds
         /// </summary>
