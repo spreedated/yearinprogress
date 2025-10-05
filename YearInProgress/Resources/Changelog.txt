@@ -1,6 +1,9 @@
 ﻿v1.0.8
 ----------------
 - Updated to Avalonia 11.3.7
+- Updated neXn Avalonia package
+- Using WindowManager from neXn package
+- Extracted methods to library
 
 v1.0.7
 ----------------
