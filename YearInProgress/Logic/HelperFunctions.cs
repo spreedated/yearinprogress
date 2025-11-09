@@ -48,24 +48,28 @@ namespace YearInProgress.Logic
 
         public static void OpenWebsite(string url)
         {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                return;
+            }
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out var uri) || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+            {
+                url = "https://" + url.Trim();
+            }
+
             try
             {
-                if (OperatingSystem.IsWindows())
+                ProcessStartInfo psi = new()
                 {
-                    Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
-                }
-                else if (OperatingSystem.IsMacOS())
-                {
-                    Process.Start("open", url);
-                }
-                else if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
-                {
-                    Process.Start("xdg-open", url);
-                }
+                    FileName = url,
+                    UseShellExecute = true
+                };
+                Process.Start(psi);
             }
             catch (Exception)
             {
-                //noop
+                return;
             }
         }
 

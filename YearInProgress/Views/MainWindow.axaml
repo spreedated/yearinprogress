@@ -10,9 +10,9 @@
         Title="YearInProgress"
         SizeToContent="Height"
         Icon="/Assets/app_icon_white.ico"
-        Loaded="Window_Loaded"
         Topmost="{Binding TopMost}"
-        Opened="Window_Opened">
+        Opened="Window_Opened"
+        Initialized="Window_Initialized">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
