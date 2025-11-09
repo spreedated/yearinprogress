@@ -9,7 +9,10 @@ namespace YearInProgress.Logic
     {
         public static async Task<Version> GetLatestVersionAsync()
         {
-            using (HttpClient hc = new())
+            using (HttpClient hc = new()
+            {
+                Timeout = TimeSpan.FromSeconds(10)
+            })
             {
                 hc.DefaultRequestHeaders.Add("User-Agent", $"YearInProgress/1.0 ({Constants.GITHUB_PROJECT_URL})");
 

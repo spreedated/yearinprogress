@@ -1,4 +1,11 @@
-﻿v1.0.8
+﻿v1.0.9
+----------------
+- Updated to Avalonia 11.3.8
+- Updated nuget packages
+- Reworked open website method
+- Speed up startup process
+
+v1.0.8
 ----------------
 - Updated to Avalonia 11.3.7
 - Updated neXn Avalonia package

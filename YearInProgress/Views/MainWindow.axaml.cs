@@ -8,26 +8,13 @@ namespace YearInProgress.Views
 {
     public partial class MainWindow : Window
     {
-        private readonly WindowDragHandler dragHandler;
-        private readonly WindowManager wm;
+        private WindowDragHandler dragHandler;
+        private WindowManager wm;
 
         public MainWindow()
         {
             HelperFunctions.SetTheme();
-
             this.InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
-            this.wm = new(this);
-            this.dragHandler = new(this)
-            {
-                IsEnabled = true
-            };
-
-            this.dragHandler.PointerReleased += (s, e) =>
-            {
-                Globals.Configuration.RuntimeConfiguration.WindowLocation = new(this.Position.X, this.Position.Y);
-                Globals.Configuration.Save();
-            };
 
             for (int i = 0; i < 10; i++)
             {
@@ -39,14 +26,27 @@ namespace YearInProgress.Views
             ((MainWindowViewModel)this.DataContext).WindowInstance = this;
         }
 
-        private void Window_Loaded(object sender, Avalonia.Interactivity.RoutedEventArgs e)
-        {
-            this.wm.RestoreWindowLocation(Globals.Configuration.RuntimeConfiguration.WindowLocation);
-        }
-
         private void Window_Opened(object sender, EventArgs e)
         {
             this.wm.HideFromAltTab();
+        }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            this.DataContext = new MainWindowViewModel();
+            this.wm = new(this);
+
+            this.dragHandler = new(this)
+            {
+                IsEnabled = true
+            };
+            this.dragHandler.PointerReleased += (s, e) =>
+            {
+                Globals.Configuration.RuntimeConfiguration.WindowLocation = new(this.Position.X, this.Position.Y);
+                Globals.Configuration.Save();
+            };
+
+            this.wm.RestoreWindowLocation(Globals.Configuration.RuntimeConfiguration.WindowLocation);
         }
     }
 }
