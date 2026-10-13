@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using neXn.Ui.Avalonia;
 using System;
+using System.Threading.Tasks;
 using YearInProgress.Logic;
 using YearInProgress.ViewModels;
 
@@ -13,26 +14,8 @@ namespace YearInProgress.Views
 
         public MainWindow()
         {
-            HelperFunctions.SetTheme();
             this.InitializeComponent();
 
-            for (int i = 0; i < 10; i++)
-            {
-                this.GridYear.ColumnDefinitions.Add(new ColumnDefinition());
-                this.GridYear.RowDefinitions.Add(new RowDefinition());
-            }
-
-            ((MainWindowViewModel)this.DataContext).Initialize(this.GridYear);
-            ((MainWindowViewModel)this.DataContext).WindowInstance = this;
-        }
-
-        private void Window_Opened(object sender, EventArgs e)
-        {
-            this.wm.HideFromAltTab();
-        }
-
-        private void Window_Initialized(object sender, EventArgs e)
-        {
             this.DataContext = new MainWindowViewModel();
             this.wm = new(this);
 
@@ -40,13 +23,33 @@ namespace YearInProgress.Views
             {
                 IsEnabled = true
             };
-            this.dragHandler.PointerReleased += (s, e) =>
-            {
-                Globals.Configuration.RuntimeConfiguration.WindowLocation = new(this.Position.X, this.Position.Y);
-                Globals.Configuration.Save();
-            };
 
-            this.wm.RestoreWindowLocation(Globals.Configuration.RuntimeConfiguration.WindowLocation);
+            for (int i = 0; i < 10; i++)
+            {
+                this.GridYear.ColumnDefinitions.Add(new ColumnDefinition());
+                this.GridYear.RowDefinitions.Add(new RowDefinition());
+            }
+
+            if (!Design.IsDesignMode)
+            {
+                Logic.HelperFunctions.SetTheme();
+                ((MainWindowViewModel)this.DataContext).Initialize(this.GridYear);
+
+                this.dragHandler.PointerReleased += (s, e) =>
+                {
+                    Globals.Configuration.RuntimeConfiguration.WindowLocation = new(this.Position.X, this.Position.Y);
+                    Task.Run(async () => await Globals.Configuration.SaveAsync());
+                };
+
+                this.wm.RestoreWindowLocation(Globals.Configuration.RuntimeConfiguration.WindowLocation);
+            }
+
+            ((MainWindowViewModel)this.DataContext).WindowInstance = this;
+        }
+
+        private void Window_Opened(object sender, EventArgs e)
+        {
+            this.wm.HideFromAltTab();
         }
     }
 }

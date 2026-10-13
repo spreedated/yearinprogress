@@ -43,31 +43,31 @@ namespace YearInProgress.ViewModels
         private string retirementString = "88 days, 50 min, 24 sec";
 
         [ObservableProperty]
-        private bool displayClock = Globals.Configuration.RuntimeConfiguration.DisplayClock;
+        private bool displayClock;
         partial void OnDisplayClockChanged(bool value)
         {
-            this.SaveSettingsToConfig();
+            Task.Run(async () => await this.SaveSettingsToConfig());
         }
 
         [ObservableProperty]
-        private bool displayDate = Globals.Configuration.RuntimeConfiguration.DisplayDate;
+        private bool displayDate;
         partial void OnDisplayDateChanged(bool value)
         {
-            this.SaveSettingsToConfig();
+            Task.Run(async () => await this.SaveSettingsToConfig());
         }
 
         [ObservableProperty]
-        private bool displayRetirement = Globals.Configuration.RuntimeConfiguration.DisplayRetirement;
+        private bool displayRetirement;
         partial void OnDisplayRetirementChanged(bool value)
         {
-            this.SaveSettingsToConfig();
+            Task.Run(async () => await this.SaveSettingsToConfig());
         }
 
         [ObservableProperty]
-        private bool compactView = Globals.Configuration.RuntimeConfiguration.CompactView;
+        private bool compactView;
         partial void OnCompactViewChanged(bool value)
         {
-            this.SaveSettingsToConfig();
+            Task.Run(async () => await this.SaveSettingsToConfig());
             this.ReInitialize();
         }
 
@@ -75,10 +75,10 @@ namespace YearInProgress.ViewModels
         private DateTime setBirthday;
 
         [ObservableProperty]
-        private bool topMost = Globals.Configuration.RuntimeConfiguration.TopMost;
+        private bool topMost;
         partial void OnTopMostChanged(bool value)
         {
-            this.SaveSettingsToConfig();
+            Task.Run(async () => await this.SaveSettingsToConfig());
         }
 
         [ObservableProperty]
@@ -107,41 +107,55 @@ namespace YearInProgress.ViewModels
         private Version latestOnlineVersion = default;
         #endregion
 
+        private void ApplyValuesFromUserConfig()
+        {
+            this.refreshRetirementStringInSecondsLeft = Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString;
+            this.SetBirthday = Globals.Configuration.RuntimeConfiguration.Birthday;
+            this.TopMost = Globals.Configuration.RuntimeConfiguration.TopMost;
+            this.CompactView = Globals.Configuration.RuntimeConfiguration.CompactView;
+            this.DisplayRetirement = Globals.Configuration.RuntimeConfiguration.DisplayRetirement;
+            this.DisplayDate = Globals.Configuration.RuntimeConfiguration.DisplayDate;
+            this.DisplayClock = Globals.Configuration.RuntimeConfiguration.DisplayClock;
+        }
+
         #region Ctor
         public MainWindowViewModel()
         {
             this.currentRetirementString = HelperFunctions.LoadRandomMotivationalRetirementText();
-            this.refreshRetirementStringInSecondsLeft = Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString;
             this.versionInfo = $"Version: {typeof(MainWindowViewModel).Assembly.GetName().Version}";
             this.lastRunDay = DateTime.Now.Day;
-            this.setBirthday = Globals.Configuration.RuntimeConfiguration.Birthday;
 
-            if (OperatingSystem.IsWindows())
+            if (!Design.IsDesignMode)
             {
-                this.IsAutostart = AutoStartManager.IsAutostartEnabled();
-            }
+                this.ApplyValuesFromUserConfig();
 
-            Task.Run(async () =>
-            {
-                Version v = await UpdateManager.GetLatestVersionAsync();
-
-                if (HelperFunctions.assembly.GetName().Version < v)
+                if (OperatingSystem.IsWindows())
                 {
-                    Dispatcher.UIThread.Invoke(() =>
-                    {
-                        this.IsNewVersionMenuItemVisible = true;
-                        this.LatestOnlineVersion = v;
-                    });
+                    this.IsAutostart = AutoStartManager.IsAutostartEnabled();
                 }
 
-                Dispatcher.UIThread.Invoke(() => this.IsNewVersionMenuItemVisible = false);
-            });
+                Task.Run(async () =>
+                {
+                    Version v = await UpdateManager.GetLatestVersionAsync();
 
-            TimeSpan timeUntilNextSecond = TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(DateTime.Now.Millisecond);
-            this.reinitTimer.Interval = timeUntilNextSecond;
-            this.reinitTimer.Start();
+                    if (HelperFunctions.assembly.GetName().Version < v)
+                    {
+                        Dispatcher.UIThread.Invoke(() =>
+                        {
+                            this.IsNewVersionMenuItemVisible = true;
+                            this.LatestOnlineVersion = v;
+                        });
+                    }
 
-            this.reinitTimer.Tick += this.TimerElapsed;
+                    Dispatcher.UIThread.Invoke(() => this.IsNewVersionMenuItemVisible = false);
+                });
+
+                TimeSpan timeUntilNextSecond = TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(DateTime.Now.Millisecond);
+                this.reinitTimer.Interval = timeUntilNextSecond;
+                this.reinitTimer.Start();
+
+                this.reinitTimer.Tick += this.TimerElapsed;
+            }
         }
         #endregion
 
@@ -159,9 +173,9 @@ namespace YearInProgress.ViewModels
         }
 
         [RelayCommand]
-        private static void CloseApplication()
+        private static async Task CloseApplication()
         {
-            Globals.Configuration.Save();
+            await Globals.Configuration.SaveAsync();
             Environment.Exit(0);
         }
 
@@ -244,7 +258,7 @@ namespace YearInProgress.ViewModels
             }
         }
 
-        private void SaveSettingsToConfig()
+        private async Task SaveSettingsToConfig()
         {
             Globals.Configuration.RuntimeConfiguration.DisplayClock = this.DisplayClock;
             Globals.Configuration.RuntimeConfiguration.DisplayDate = this.DisplayDate;
@@ -253,7 +267,7 @@ namespace YearInProgress.ViewModels
             Globals.Configuration.RuntimeConfiguration.CompactView = this.CompactView;
             Globals.Configuration.RuntimeConfiguration.TopMost = this.TopMost;
 
-            Globals.Configuration.Save();
+            await Globals.Configuration.SaveAsync();
         }
 
         private void CreateGridAdvanced()

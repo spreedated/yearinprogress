@@ -23,7 +23,7 @@ namespace YearInProgress
             {
                 Autoload = false
             });
-            Globals.Configuration.Load().Wait();
+            Globals.Configuration.LoadAsync().Wait();
 
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         }

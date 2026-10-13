@@ -1,4 +1,10 @@
-﻿v1.1.0
+﻿v1.2.0
+----------------
+- Updated to Avalonia 12.1.2
+- Updated to neXn private libraries
+- Code cleanup
+
+v1.1.0
 ----------------
 - Updated to Avalonia 11.3.12
 - Compiled against .NET 10

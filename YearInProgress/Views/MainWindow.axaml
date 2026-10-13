@@ -11,8 +11,7 @@
         SizeToContent="Height"
         Icon="/Assets/app_icon_white.ico"
         Topmost="{Binding TopMost}"
-        Opened="Window_Opened"
-        Initialized="Window_Initialized">
+        Opened="Window_Opened">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>

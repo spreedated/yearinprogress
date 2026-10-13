@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace YearInProgress.Models
 {
-    internal sealed class Configuration
+    internal sealed record Configuration
     {
         public DateTime Birthday { get; set; } = new DateTime(1987, 7, 1, 0, 0, 0, DateTimeKind.Local);
         public bool CompactView { get; set; }

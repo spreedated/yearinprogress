@@ -1,7 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Threading.Tasks;
 using YearInProgress.Logic;
 
 namespace YearInProgress.ViewModels
@@ -18,7 +20,7 @@ namespace YearInProgress.ViewModels
         {
             this.CalculateMinimumRetirementYear();
             Globals.Configuration.RuntimeConfiguration.Birthday = new(value.Value.Year, value.Value.Month, value.Value.Day, 0, 0, 0, DateTimeKind.Local);
-            Globals.Configuration.Save();
+            Globals.Configuration.SaveAsync().Wait();
         }
 
         [ObservableProperty]
@@ -26,7 +28,7 @@ namespace YearInProgress.ViewModels
         partial void OnRetirementYearChanged(int value)
         {
             Globals.Configuration.RuntimeConfiguration.RetirementWithYear = value;
-            Globals.Configuration.Save();
+            Globals.Configuration.SaveAsync().Wait();
         }
 
         [ObservableProperty]
@@ -37,15 +39,15 @@ namespace YearInProgress.ViewModels
         partial void OnRefreshrateOfRandomRetirementStringInMinutesChanged(int value)
         {
             Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString = value * 60;
-            Globals.Configuration.Save();
+            Globals.Configuration.SaveAsync().Wait();
         }
 
         [ObservableProperty]
-        private bool isDarkModeActive = Globals.Configuration.RuntimeConfiguration.DarkTheme;
+        private bool isDarkModeActive = false;
         partial void OnIsDarkModeActiveChanged(bool value)
         {
             Globals.Configuration.RuntimeConfiguration.DarkTheme = value;
-            Globals.Configuration.Save();
+            Task.Run(async () => await Globals.Configuration.SaveAsync());
             HelperFunctions.SetTheme();
         }
         #endregion
@@ -53,11 +55,15 @@ namespace YearInProgress.ViewModels
         #region Ctor
         public OptionsViewModel()
         {
-            this.CalculateMinimumRetirementYear();
+            if (!Design.IsDesignMode)
+            {
+                this.IsDarkModeActive = Globals.Configuration.RuntimeConfiguration.DarkTheme;
+                this.CalculateMinimumRetirementYear();
 
-            this.BirthdayDate = Globals.Configuration.RuntimeConfiguration.Birthday;
-            this.RetirementYear = Globals.Configuration.RuntimeConfiguration.RetirementWithYear;
-            this.RefreshrateOfRandomRetirementStringInMinutes = (int)Math.Round(Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString / 60d);
+                this.BirthdayDate = Globals.Configuration.RuntimeConfiguration.Birthday;
+                this.RetirementYear = Globals.Configuration.RuntimeConfiguration.RetirementWithYear;
+                this.RefreshrateOfRandomRetirementStringInMinutes = (int)Math.Round(Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString / 60d);
+            }
         }
         #endregion
 
