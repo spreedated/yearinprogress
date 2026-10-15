@@ -14,7 +14,7 @@ namespace YearInProgress.Views
             {
                 IsEnabled = true
             };
-            ((ChangelogViewModel)this.DataContext).WindowInstance = this;
+            ((ChangelogViewModel)this.DataContext).Instance = this;
         }
     }
 }

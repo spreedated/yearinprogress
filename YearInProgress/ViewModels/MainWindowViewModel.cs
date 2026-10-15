@@ -13,79 +13,76 @@ using YearInProgress.Views;
 
 namespace YearInProgress.ViewModels
 {
-    public partial class MainWindowViewModel : ObservableObject
+    public partial class MainWindowViewModel : ViewModelBase
     {
-        private Grid workingGrid = null;
-        private readonly ProgressBoxAdvanced[,] progressBoxesAdvanced = new ProgressBoxAdvanced[10, 10];
-        private readonly DispatcherTimer reinitTimer = new();
-        private bool isFirstRun = true;
-        private int lastRunDay = 0;
-        private int refreshRetirementStringInSecondsLeft;
-        private string currentRetirementString = null;
+        private readonly Grid _workingGrid = null;
+        private readonly ProgressBoxAdvanced[,] _progressBoxesAdvanced = new ProgressBoxAdvanced[10, 10];
+        private readonly DispatcherTimer _reinitTimer = new();
+        private bool _isFirstRun = true;
+        private int _lastRunDay = 0;
+        private int _refreshRetirementStringInSecondsLeft;
+        private string _currentRetirementString = null;
 
         #region BindableProperties
         [ObservableProperty]
-        private Window windowInstance = null;
+        public partial string VersionInfo { get; set; } = null;
 
         [ObservableProperty]
-        private string versionInfo = null;
+        public partial string Text { get; set; } = "1987 is 100% complete";
 
         [ObservableProperty]
-        private string text = "1987 is 100% complete";
+        public partial string CurrentDate { get; set; } = "July, 1 1987";
 
         [ObservableProperty]
-        private string currentDate = "July, 1 1987";
+        public partial string CurrentTimeString { get; set; } = "07:56:24";
 
         [ObservableProperty]
-        private string currentTimeString = "07:56:24";
+        public partial string RetirementString { get; set; } = "88 days, 50 min, 24 sec";
 
         [ObservableProperty]
-        private string retirementString = "88 days, 50 min, 24 sec";
-
-        [ObservableProperty]
-        private bool displayClock = Globals.Configuration.RuntimeConfiguration.DisplayClock;
+        public partial bool DisplayClock { get; set; }
         partial void OnDisplayClockChanged(bool value)
         {
-            this.SaveSettingsToConfig();
+            Task.Run(async () => await this.SaveSettingsToConfig());
         }
 
         [ObservableProperty]
-        private bool displayDate = Globals.Configuration.RuntimeConfiguration.DisplayDate;
+        public partial bool DisplayDate { get; set; }
         partial void OnDisplayDateChanged(bool value)
         {
-            this.SaveSettingsToConfig();
+            Task.Run(async () => await this.SaveSettingsToConfig());
         }
 
         [ObservableProperty]
-        private bool displayRetirement = Globals.Configuration.RuntimeConfiguration.DisplayRetirement;
+        public partial bool DisplayRetirement { get; set; }
         partial void OnDisplayRetirementChanged(bool value)
         {
-            this.SaveSettingsToConfig();
+            Task.Run(async () => await this.SaveSettingsToConfig());
         }
 
         [ObservableProperty]
-        private bool compactView = Globals.Configuration.RuntimeConfiguration.CompactView;
+        public partial bool CompactView { get; set; }
         partial void OnCompactViewChanged(bool value)
         {
-            this.SaveSettingsToConfig();
+            Task.Run(async () => await this.SaveSettingsToConfig());
             this.ReInitialize();
         }
 
         [ObservableProperty]
-        private DateTime setBirthday;
+        public partial DateTime SetBirthday { get; set; }
 
         [ObservableProperty]
-        private bool topMost = Globals.Configuration.RuntimeConfiguration.TopMost;
+        public partial bool TopMost { get; set; }
         partial void OnTopMostChanged(bool value)
         {
-            this.SaveSettingsToConfig();
+            Task.Run(async () => await this.SaveSettingsToConfig());
         }
 
         [ObservableProperty]
-        private bool isAutostart = false;
+        public partial bool IsAutostart { get; set; }
         partial void OnIsAutostartChanged(bool value)
         {
-            if (this.isFirstRun)
+            if (this._isFirstRun)
             {
                 return;
             }
@@ -98,50 +95,68 @@ namespace YearInProgress.ViewModels
         }
 
         [ObservableProperty]
-        private bool enabledAutostartMenuItem = OperatingSystem.IsWindows();
+        public partial bool EnabledAutostartMenuItem { get; set; } = OperatingSystem.IsWindows();
 
         [ObservableProperty]
-        private bool isNewVersionMenuItemVisible = false;
+        public partial bool IsNewVersionMenuItemVisible { get; set; }
 
         [ObservableProperty]
-        private Version latestOnlineVersion = default;
+        public partial Version LatestOnlineVersion { get; set; }
         #endregion
 
-        #region Ctor
-        public MainWindowViewModel()
+        private void ApplyValuesFromUserConfig()
         {
-            this.currentRetirementString = HelperFunctions.LoadRandomMotivationalRetirementText();
-            this.refreshRetirementStringInSecondsLeft = Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString;
-            this.versionInfo = $"Version: {typeof(MainWindowViewModel).Assembly.GetName().Version}";
-            this.lastRunDay = DateTime.Now.Day;
-            this.setBirthday = Globals.Configuration.RuntimeConfiguration.Birthday;
+            _refreshRetirementStringInSecondsLeft = Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString;
+            this.SetBirthday = Globals.Configuration.RuntimeConfiguration.Birthday;
+            this.TopMost = Globals.Configuration.RuntimeConfiguration.TopMost;
+            this.CompactView = Globals.Configuration.RuntimeConfiguration.CompactView;
+            this.DisplayRetirement = Globals.Configuration.RuntimeConfiguration.DisplayRetirement;
+            this.DisplayDate = Globals.Configuration.RuntimeConfiguration.DisplayDate;
+            this.DisplayClock = Globals.Configuration.RuntimeConfiguration.DisplayClock;
+        }
 
-            if (OperatingSystem.IsWindows())
+        #region Ctor
+        public MainWindowViewModel(Grid workingGrid) : base("MainView")
+        {
+            this.VersionInfo = $"Version: {typeof(MainWindowViewModel).Assembly.GetName().Version}";
+
+            _workingGrid = workingGrid;
+            _currentRetirementString = HelperFunctions.LoadRandomMotivationalRetirementText();
+            _lastRunDay = DateTime.Now.Day;
+
+            if (!Design.IsDesignMode)
             {
-                this.IsAutostart = AutoStartManager.IsAutostartEnabled();
-            }
+                this.ApplyValuesFromUserConfig();
 
-            Task.Run(async () =>
-            {
-                Version v = await UpdateManager.GetLatestVersionAsync();
-
-                if (HelperFunctions.assembly.GetName().Version < v)
+                if (OperatingSystem.IsWindows())
                 {
-                    Dispatcher.UIThread.Invoke(() =>
-                    {
-                        this.IsNewVersionMenuItemVisible = true;
-                        this.LatestOnlineVersion = v;
-                    });
+                    this.IsAutostart = AutoStartManager.IsAutostartEnabled();
                 }
 
-                Dispatcher.UIThread.Invoke(() => this.IsNewVersionMenuItemVisible = false);
-            });
+                Task.Run(async () =>
+                {
+                    Version v = await UpdateManager.GetLatestVersionAsync();
 
-            TimeSpan timeUntilNextSecond = TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(DateTime.Now.Millisecond);
-            this.reinitTimer.Interval = timeUntilNextSecond;
-            this.reinitTimer.Start();
+                    if (HelperFunctions._assembly.GetName().Version < v)
+                    {
+                        Dispatcher.UIThread.Invoke(() =>
+                        {
+                            this.IsNewVersionMenuItemVisible = true;
+                            this.LatestOnlineVersion = v;
+                        });
+                    }
 
-            this.reinitTimer.Tick += this.TimerElapsed;
+                    Dispatcher.UIThread.Invoke(() => this.IsNewVersionMenuItemVisible = false);
+                });
+
+                this.Initialize();
+
+                TimeSpan timeUntilNextSecond = TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(DateTime.Now.Millisecond);
+                _reinitTimer.Interval = timeUntilNextSecond;
+                _reinitTimer.Start();
+
+                _reinitTimer.Tick += this.TimerElapsed;
+            }
         }
         #endregion
 
@@ -159,9 +174,9 @@ namespace YearInProgress.ViewModels
         }
 
         [RelayCommand]
-        private static void CloseApplication()
+        private static async Task CloseApplication()
         {
-            Globals.Configuration.Save();
+            await Globals.Configuration.SaveAsync();
             Environment.Exit(0);
         }
 
@@ -169,14 +184,14 @@ namespace YearInProgress.ViewModels
         private void OpenOptions()
         {
             Options o = new();
-            o.ShowDialog(this.WindowInstance);
+            o.ShowDialog(base.Instance);
         }
 
         [RelayCommand]
         private void OpenChangelog()
         {
             Changelog c = new();
-            c.ShowDialog(this.WindowInstance);
+            c.ShowDialog(base.Instance);
         }
 
         [RelayCommand]
@@ -194,9 +209,9 @@ namespace YearInProgress.ViewModels
 
         private void TimerElapsed(object sender, EventArgs e)
         {
-            if (this.isFirstRun)
+            if (_isFirstRun)
             {
-                this.reinitTimer.Interval = TimeSpan.FromSeconds(1);
+                _reinitTimer.Interval = TimeSpan.FromSeconds(1);
             }
 
             if (this.DisplayClock)
@@ -204,17 +219,17 @@ namespace YearInProgress.ViewModels
                 this.CurrentTimeString = DateTime.Now.ToString("HH:mm:ss");
             }
 
-            if (this.lastRunDay != DateTime.Now.Day)
+            if (_lastRunDay != DateTime.Now.Day)
             {
                 this.ReInitialize();
-                this.lastRunDay = DateTime.Now.Day;
+                _lastRunDay = DateTime.Now.Day;
             }
 
             this.ShowRandomRetirementsString();
 
-            if (this.isFirstRun)
+            if (_isFirstRun)
             {
-                this.isFirstRun = false;
+                _isFirstRun = false;
             }
         }
 
@@ -227,24 +242,24 @@ namespace YearInProgress.ViewModels
                 TimeSpan time = substracted - (DateTime.Now - Globals.Configuration.RuntimeConfiguration.Birthday);
 #pragma warning restore S6561
 
-                this.refreshRetirementStringInSecondsLeft--;
+                _refreshRetirementStringInSecondsLeft--;
 
-                this.RetirementString = this.currentRetirementString.Replace("{Placeholder}", $"{(int)time.TotalDays:N0} days,\n{time.Hours} hrs, {time.Minutes} mins, {time.Seconds} sec").Trim('\n');
+                this.RetirementString = _currentRetirementString.Replace("{Placeholder}", $"{(int)time.TotalDays:N0} days,\n{time.Hours} hrs, {time.Minutes} mins, {time.Seconds} sec").Trim('\n');
 
                 if (force)
                 {
-                    this.refreshRetirementStringInSecondsLeft = 0;
+                    _refreshRetirementStringInSecondsLeft = 0;
                 }
 
-                if (this.refreshRetirementStringInSecondsLeft <= 0)
+                if (_refreshRetirementStringInSecondsLeft <= 0)
                 {
-                    this.refreshRetirementStringInSecondsLeft = Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString;
-                    this.currentRetirementString = HelperFunctions.LoadRandomMotivationalRetirementText();
+                    _refreshRetirementStringInSecondsLeft = Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString;
+                    _currentRetirementString = HelperFunctions.LoadRandomMotivationalRetirementText();
                 }
             }
         }
 
-        private void SaveSettingsToConfig()
+        private async Task SaveSettingsToConfig()
         {
             Globals.Configuration.RuntimeConfiguration.DisplayClock = this.DisplayClock;
             Globals.Configuration.RuntimeConfiguration.DisplayDate = this.DisplayDate;
@@ -253,11 +268,13 @@ namespace YearInProgress.ViewModels
             Globals.Configuration.RuntimeConfiguration.CompactView = this.CompactView;
             Globals.Configuration.RuntimeConfiguration.TopMost = this.TopMost;
 
-            Globals.Configuration.Save();
+            await Globals.Configuration.SaveAsync();
         }
 
         private void CreateGridAdvanced()
         {
+            _workingGrid.Children.Clear();
+
             for (int i = 0; i < 10; i++)
             {
                 for (int ii = 0; ii < 10; ii++)
@@ -267,10 +284,11 @@ namespace YearInProgress.ViewModels
                         Margin = new(0, 0, 0, 4),
                         [Grid.RowProperty] = i,
                         [Grid.ColumnProperty] = ii,
-                        Opacity = 0.8
+                        Opacity = 0.8,
+                        Tag = $"{i},{ii}"
                     };
 
-                    this.progressBoxesAdvanced[i, ii] = progressBox;
+                    _progressBoxesAdvanced[i, ii] = progressBox;
                 }
             }
         }
@@ -278,9 +296,8 @@ namespace YearInProgress.ViewModels
         /// <summary>
         /// Initializes and calculate
         /// </summary>
-        public void Initialize(Grid grid)
+        public void Initialize()
         {
-            this.workingGrid ??= grid;
             this.DisplayClock = Globals.Configuration.RuntimeConfiguration.DisplayClock;
             this.DisplayDate = Globals.Configuration.RuntimeConfiguration.DisplayDate;
             this.DisplayRetirement = Globals.Configuration.RuntimeConfiguration.DisplayRetirement;
@@ -301,7 +318,7 @@ namespace YearInProgress.ViewModels
             int currentIteration = 0;
             int currentRow = 0;
 
-            foreach (ProgressBoxAdvanced pb in this.progressBoxesAdvanced)
+            foreach (ProgressBoxAdvanced pb in _progressBoxesAdvanced)
             {
                 if (markedDays >= 1f)
                 {
@@ -316,12 +333,12 @@ namespace YearInProgress.ViewModels
                     markedDays--;
                 }
 
-                if (Globals.Configuration.RuntimeConfiguration.CompactView && pb.Value <= 0 && this.progressBoxesAdvanced[currentRow, 0].Value <= 0)
+                if (Globals.Configuration.RuntimeConfiguration.CompactView && pb.Value <= 0 && _progressBoxesAdvanced[currentRow, 0].Value <= 0)
                 {
                     continue;
                 }
 
-                grid.Children.Add(pb);
+                _workingGrid.Children.Add(pb);
 
                 currentIteration++;
 
@@ -334,8 +351,8 @@ namespace YearInProgress.ViewModels
 
         public void ReInitialize()
         {
-            this.workingGrid.Children.Clear();
-            this.Initialize(this.workingGrid);
+            _workingGrid.Children.Clear();
+            this.Initialize();
         }
     }
 }

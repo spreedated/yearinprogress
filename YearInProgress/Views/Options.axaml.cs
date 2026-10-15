@@ -15,6 +15,6 @@ public partial class Options : Window
             IsEnabled = true
         };
 
-        ((OptionsViewModel)this.DataContext).WindowInstance = this;
+        ((OptionsViewModel)this.DataContext).Instance = this;
     }
 }

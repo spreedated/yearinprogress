@@ -9,41 +9,41 @@ namespace YearInProgress.Logic
 {
     internal static class HelperFunctions
     {
-        internal readonly static Assembly assembly = typeof(HelperFunctions).Assembly;
-        private static string[] motivationalLines = null;
-        private static string changelogText = null;
-        private static readonly Random rnd = new(BitConverter.ToInt32(Guid.NewGuid().ToByteArray()));
+        internal readonly static Assembly _assembly = typeof(HelperFunctions).Assembly;
+        private static string[] _motivationalLines = null;
+        private static string _changelogText = null;
+        private static readonly Random _rnd = new(BitConverter.ToInt32(Guid.NewGuid().ToByteArray()));
 
         public static string LoadRandomMotivationalRetirementText()
         {
-            if (motivationalLines == null || motivationalLines.Length <= 0)
+            if (_motivationalLines == null || _motivationalLines.Length <= 0)
             {
-                using (Stream s = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.Resources.MotivationalRetirementTexts.txt"))
+                using (Stream s = _assembly.GetManifestResourceStream($"{_assembly.GetName().Name}.Resources.MotivationalRetirementTexts.txt"))
                 {
                     using (StreamReader r = new(s))
                     {
-                        motivationalLines = r.ReadToEnd().Split('\n');
+                        _motivationalLines = r.ReadToEnd().Split('\n');
                     }
                 }
             }
 
-            return motivationalLines[rnd.Next(motivationalLines.Length)].Replace("\\n", "\n");
+            return _motivationalLines[_rnd.Next(_motivationalLines.Length)].Replace("\\n", "\n");
         }
 
         public static string ReadEmbeddedChangelog()
         {
-            if (string.IsNullOrEmpty(changelogText))
+            if (string.IsNullOrEmpty(_changelogText))
             {
-                using (Stream s = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.Resources.Changelog.txt"))
+                using (Stream s = _assembly.GetManifestResourceStream($"{_assembly.GetName().Name}.Resources.Changelog.txt"))
                 {
                     using (StreamReader r = new(s))
                     {
-                        changelogText = r.ReadToEnd();
+                        _changelogText = r.ReadToEnd();
                     }
                 }
             }
 
-            return changelogText;
+            return _changelogText;
         }
 
         public static void OpenWebsite(string url)

@@ -6,16 +6,25 @@ namespace YearInProgress.Logic
 {
     public static class AutoStartManager
     {
-        private const string RegistryPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
-        private static string AppPath => Process.GetCurrentProcess().MainModule?.FileName ?? "";
+        private const string REGISTRY_PATH = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+        private static string AppPath
+        {
+            get
+            {
+                using (Process p = Process.GetCurrentProcess())
+                {
+                    return p.MainModule?.FileName ?? string.Empty;
+                }
+            }
+        }
 
         public static void EnableAutoStart()
         {
             if (OperatingSystem.IsWindows())
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryPath, true))
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(REGISTRY_PATH, true))
                 {
-                    key?.SetValue(HelperFunctions.assembly.GetName().Name, $"\"{AppPath}\"");
+                    key?.SetValue(HelperFunctions._assembly.GetName().Name, $"\"{AppPath}\"");
                 }
             }
         }
@@ -24,9 +33,9 @@ namespace YearInProgress.Logic
         {
             if (OperatingSystem.IsWindows())
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryPath, true))
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(REGISTRY_PATH, true))
                 {
-                    key?.DeleteValue(HelperFunctions.assembly.GetName().Name, false);
+                    key?.DeleteValue(HelperFunctions._assembly.GetName().Name, false);
                 }
             }
         }
@@ -35,9 +44,9 @@ namespace YearInProgress.Logic
         {
             if (OperatingSystem.IsWindows())
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryPath, true))
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(REGISTRY_PATH, true))
                 {
-                    string val = key.GetValue(HelperFunctions.assembly.GetName().Name)?.ToString();
+                    string val = key.GetValue(HelperFunctions._assembly.GetName().Name)?.ToString();
 
                     return val != null && val.Trim('"') == AppPath;
                 }

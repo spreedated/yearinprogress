@@ -1,63 +1,66 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Threading.Tasks;
 using YearInProgress.Logic;
 
 namespace YearInProgress.ViewModels
 {
-    internal partial class OptionsViewModel : ObservableObject
+    internal partial class OptionsViewModel : ViewModelBase
     {
         #region BindableProperties
         [ObservableProperty]
-        private Window windowInstance = null;
-
-        [ObservableProperty]
-        private DateTimeOffset? birthdayDate;
+        private DateTimeOffset? _birthdayDate;
         partial void OnBirthdayDateChanged(DateTimeOffset? value)
         {
             this.CalculateMinimumRetirementYear();
             Globals.Configuration.RuntimeConfiguration.Birthday = new(value.Value.Year, value.Value.Month, value.Value.Day, 0, 0, 0, DateTimeKind.Local);
-            Globals.Configuration.Save();
+            Globals.Configuration.SaveAsync().Wait();
         }
 
         [ObservableProperty]
-        private int retirementYear = default;
+        public partial int RetirementYear { get; set; } = default;
         partial void OnRetirementYearChanged(int value)
         {
             Globals.Configuration.RuntimeConfiguration.RetirementWithYear = value;
-            Globals.Configuration.Save();
+            Globals.Configuration.SaveAsync().Wait();
         }
 
         [ObservableProperty]
-        private int retirementYearMinimum = default;
+        public partial int RetirementYearMinimum { get; set; } = default;
 
         [ObservableProperty]
-        private int refreshrateOfRandomRetirementStringInMinutes = default;
+        public partial int RefreshrateOfRandomRetirementStringInMinutes { get; set; } = default;
         partial void OnRefreshrateOfRandomRetirementStringInMinutesChanged(int value)
         {
             Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString = value * 60;
-            Globals.Configuration.Save();
+            Globals.Configuration.SaveAsync().Wait();
         }
 
         [ObservableProperty]
-        private bool isDarkModeActive = Globals.Configuration.RuntimeConfiguration.DarkTheme;
+        public partial bool IsDarkModeActive { get; set; } = false;
         partial void OnIsDarkModeActiveChanged(bool value)
         {
             Globals.Configuration.RuntimeConfiguration.DarkTheme = value;
-            Globals.Configuration.Save();
+            Task.Run(async () => await Globals.Configuration.SaveAsync());
             HelperFunctions.SetTheme();
         }
         #endregion
 
         #region Ctor
-        public OptionsViewModel()
+        public OptionsViewModel() : base("Options")
         {
-            this.CalculateMinimumRetirementYear();
+            if (!Design.IsDesignMode)
+            {
+                this.IsDarkModeActive = Globals.Configuration.RuntimeConfiguration.DarkTheme;
+                this.CalculateMinimumRetirementYear();
 
-            this.BirthdayDate = Globals.Configuration.RuntimeConfiguration.Birthday;
-            this.RetirementYear = Globals.Configuration.RuntimeConfiguration.RetirementWithYear;
-            this.RefreshrateOfRandomRetirementStringInMinutes = (int)Math.Round(Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString / 60d);
+                this.BirthdayDate = Globals.Configuration.RuntimeConfiguration.Birthday;
+                this.RetirementYear = Globals.Configuration.RuntimeConfiguration.RetirementWithYear;
+                this.RefreshrateOfRandomRetirementStringInMinutes = (int)Math.Round(Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString / 60d);
+            }
         }
         #endregion
 
@@ -72,7 +75,7 @@ namespace YearInProgress.ViewModels
         [RelayCommand]
         private void Exit()
         {
-            this.WindowInstance.Close();
+            base.Instance.Close();
         }
 
         [RelayCommand]
