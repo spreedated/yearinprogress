@@ -8,14 +8,11 @@ using YearInProgress.Logic;
 
 namespace YearInProgress.ViewModels
 {
-    internal partial class OptionsViewModel : ObservableObject
+    internal partial class OptionsViewModel : ViewModelBase
     {
         #region BindableProperties
         [ObservableProperty]
-        private Window windowInstance = null;
-
-        [ObservableProperty]
-        private DateTimeOffset? birthdayDate;
+        private DateTimeOffset? _birthdayDate;
         partial void OnBirthdayDateChanged(DateTimeOffset? value)
         {
             this.CalculateMinimumRetirementYear();
@@ -24,7 +21,7 @@ namespace YearInProgress.ViewModels
         }
 
         [ObservableProperty]
-        private int retirementYear = default;
+        public partial int RetirementYear { get; set; } = default;
         partial void OnRetirementYearChanged(int value)
         {
             Globals.Configuration.RuntimeConfiguration.RetirementWithYear = value;
@@ -32,10 +29,10 @@ namespace YearInProgress.ViewModels
         }
 
         [ObservableProperty]
-        private int retirementYearMinimum = default;
+        public partial int RetirementYearMinimum { get; set; } = default;
 
         [ObservableProperty]
-        private int refreshrateOfRandomRetirementStringInMinutes = default;
+        public partial int RefreshrateOfRandomRetirementStringInMinutes { get; set; } = default;
         partial void OnRefreshrateOfRandomRetirementStringInMinutesChanged(int value)
         {
             Globals.Configuration.RuntimeConfiguration.RefreshrateOfRandomRetirementString = value * 60;
@@ -43,7 +40,7 @@ namespace YearInProgress.ViewModels
         }
 
         [ObservableProperty]
-        private bool isDarkModeActive = false;
+        public partial bool IsDarkModeActive { get; set; } = false;
         partial void OnIsDarkModeActiveChanged(bool value)
         {
             Globals.Configuration.RuntimeConfiguration.DarkTheme = value;
@@ -53,7 +50,7 @@ namespace YearInProgress.ViewModels
         #endregion
 
         #region Ctor
-        public OptionsViewModel()
+        public OptionsViewModel() : base("Options")
         {
             if (!Design.IsDesignMode)
             {
@@ -78,7 +75,7 @@ namespace YearInProgress.ViewModels
         [RelayCommand]
         private void Exit()
         {
-            this.WindowInstance.Close();
+            base.Instance.Close();
         }
 
         [RelayCommand]

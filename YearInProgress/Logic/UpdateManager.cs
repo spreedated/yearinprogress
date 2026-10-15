@@ -16,14 +16,17 @@ namespace YearInProgress.Logic
             {
                 hc.DefaultRequestHeaders.Add("User-Agent", $"YearInProgress/1.0 ({Constants.GITHUB_PROJECT_URL})");
 
-                HttpResponseMessage response = await hc.GetAsync(Constants.GITHUB_LATEST_RELEASE_API_URL);
+                string json = null;
 
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                using (HttpResponseMessage response = await hc.GetAsync(Constants.GITHUB_LATEST_RELEASE_API_URL))
                 {
-                    return default;
-                }
+                    if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        return default;
+                    }
 
-                string json = await response.Content.ReadAsStringAsync();
+                    json = await response.Content.ReadAsStringAsync();
+                }
 
                 using (JsonDocument jDoc = JsonDocument.Parse(json))
                 {

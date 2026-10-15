@@ -1,5 +1,10 @@
 # Year In Progress – Year & Retirement Countdown
 
+[![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
+[![Avalonia](https://img.shields.io/badge/Avalonia-12.1.4-8B44AC?style=flat-square)](https://avaloniaui.net/)
+[![License](https://img.shields.io/github/license/spreedated/yearinprogress?style=flat-square)](LICENSE.txt)
+[![Last Commit](https://img.shields.io/github/last-commit/spreedated/yearinprogress?style=flat-square)](https://github.com/spreedated/yearinprogress/commits/master)
+
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/spreed)
 
 ## Overview
@@ -9,7 +14,7 @@ It displays the current year's progress in days and provides a real-time countdo
 The app also features dynamic ***motivational messages*** to keep you going!
 
 ## Features
-- Made with **AvaloniaUI** and **.NET 9.0**.
+- Made with **AvaloniaUI** and **.NET 10.0**.
 - **Year Progress Tracker** – Displays how much of the current year has passed in days.
 - **Retirement Countdown** – Shows the exact time left until retirement in days, hours, minutes, and seconds.
 - **Dynamic Motivational Messages** – Generates engaging and uplifting messages to keep you motivated.

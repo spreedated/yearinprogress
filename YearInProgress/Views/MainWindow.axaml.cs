@@ -9,17 +9,19 @@ namespace YearInProgress.Views
 {
     public partial class MainWindow : Window
     {
-        private WindowDragHandler dragHandler;
-        private WindowManager wm;
+        private readonly WindowDragHandler _dragHandler;
+        private readonly WindowManager _wm;
+        private readonly MainWindowViewModel _vm;
 
         public MainWindow()
         {
             this.InitializeComponent();
+            _vm = new(this.GridYear);
 
-            this.DataContext = new MainWindowViewModel();
-            this.wm = new(this);
+            this.DataContext = _vm;
+            _wm = new(this);
 
-            this.dragHandler = new(this)
+            _dragHandler = new(this)
             {
                 IsEnabled = true
             };
@@ -33,23 +35,22 @@ namespace YearInProgress.Views
             if (!Design.IsDesignMode)
             {
                 Logic.HelperFunctions.SetTheme();
-                ((MainWindowViewModel)this.DataContext).Initialize(this.GridYear);
 
-                this.dragHandler.PointerReleased += (s, e) =>
+                _dragHandler.PointerReleased += (s, e) =>
                 {
                     Globals.Configuration.RuntimeConfiguration.WindowLocation = new(this.Position.X, this.Position.Y);
                     Task.Run(async () => await Globals.Configuration.SaveAsync());
                 };
 
-                this.wm.RestoreWindowLocation(Globals.Configuration.RuntimeConfiguration.WindowLocation);
+                _wm.RestoreWindowLocation(Globals.Configuration.RuntimeConfiguration.WindowLocation);
             }
 
-            ((MainWindowViewModel)this.DataContext).WindowInstance = this;
+            _vm.Instance = this;
         }
 
         private void Window_Opened(object sender, EventArgs e)
         {
-            this.wm.HideFromAltTab();
+            _wm.HideFromAltTab();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Threading;
+﻿using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
@@ -7,18 +6,15 @@ using YearInProgress.Logic;
 
 namespace YearInProgress.ViewModels
 {
-    internal partial class ChangelogViewModel : ObservableObject
+    internal partial class ChangelogViewModel : ViewModelBase
     {
         #region BindableProperties
         [ObservableProperty]
-        private Window windowInstance = null;
-
-        [ObservableProperty]
-        private string changelog = null;
+        public partial string Changelog { get; set; }
         #endregion
 
         #region Ctor
-        public ChangelogViewModel()
+        public ChangelogViewModel() : base("Changelog")
         {
             Task.Run(() =>
             {
@@ -31,7 +27,7 @@ namespace YearInProgress.ViewModels
         [RelayCommand]
         private void Exit()
         {
-            this.WindowInstance.Close();
+            base.Instance.Close();
         }
 
         [RelayCommand]
